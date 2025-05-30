@@ -2,7 +2,6 @@ import HuntFlowLogo from '@/app/ui/huntflow-logo'; // Rename your logo component
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { lusitana } from '@/app/ui/fonts';
-import Image from 'next/image';
 
 export default function Page() {
   return (
@@ -26,24 +25,12 @@ export default function Page() {
           >
             <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
-        </div>
-        <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
-          {/* Hero Images */}
-          <Image 
-            src="/hero-desktop.png"
-            width={1000}
-            height={760}
-            className='hidden md:block'
-            alt='Screenshots of the HuntFlow dashboard on desktop'
-          />
-
-          <Image 
-            src="/hero-mobile.png"
-            width={560}
-            height={620}
-            className='block md:hidden'
-            alt='Screenshots of the HuntFlow dashboard on mobile'
-          />
+          <Link
+            href="/signup"
+            className="flex items-center gap-5 self-start rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-500 md:text-base"
+          >
+            <span>Sign up</span> <ArrowRightIcon className="w-5 md:w-6" />
+          </Link>
         </div>
       </div>
     </main>

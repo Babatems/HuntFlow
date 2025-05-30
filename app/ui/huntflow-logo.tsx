@@ -1,4 +1,5 @@
-// app/ui/huntflow-logo.tsx
+// This component renders the HuntFlow logo with a styled briefcase icon and the app name using Lusitana font.
+
 import { BriefcaseIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
 
