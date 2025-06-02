@@ -10,9 +10,9 @@ import {
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from '@/app/ui/button';
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
 import { registerUser } from '@/app/lib/actions';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter  } from 'next/navigation';
 
 export default function SignupForm() {
   const searchParams = useSearchParams();
@@ -21,6 +21,10 @@ export default function SignupForm() {
     registerUser,
     undefined,
   );
+
+  const router = useRouter();
+  router.push('/dashboard');
+
 
   return (
     <form action={formAction} className="space-y-3">

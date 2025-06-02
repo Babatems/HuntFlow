@@ -144,23 +144,19 @@ export async function deleteApplication(id: string): Promise<State | void> {
 
 // -------------------- AUTHENTICATION --------------------
 
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData
-): Promise<string | void> {
-  try {
-    await signIn('credentials', formData);
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
-        default:
-          return 'Something went wrong.';
-      }
-    }
-    throw error;
+export async function authenticate(prevState: any, formData: FormData) {
+  const email = formData.get('email');
+  const password = formData.get('password');
+
+  const user = await checkUserCredentials(email, password);
+  if (!user) {
+    return { errorMessage: 'Invalid credentials' };
   }
+
+  // Log the user in (e.g., set session cookie)
+  await loginUser(user);
+
+  return { success: true };
 }
 
 // -------------------- REGISTRATION --------------------
@@ -172,10 +168,12 @@ export async function registerUser(
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
 
-  try {
-    await createUser({ email, password });
-    return null;  // success means no error message
-  } catch (error: any) {
+  const { error } = await supabase.auth.signUp({ email, password });
+
+  if (error) {
     return error.message || 'Registration failed';
   }
+
+  return null;
 }
+

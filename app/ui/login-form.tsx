@@ -11,16 +11,22 @@ import {
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from '@/app/ui/button';
 import { useActionState } from 'react';
+import { useEffect } from 'react';
 import { authenticate } from '@/app/lib/actions';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
-  const [errorMessage, formAction, isPending] = useActionState(
-    authenticate,
-    undefined,
-  );
+  const router = useRouter();
+
+  const [state, formAction, isPending] = useActionState(authenticate, undefined);
+
+  useEffect(() => {
+    if (state?.success) {
+      router.push('/dashboard');
+    }
+  }, [state]);
 
   return (
     <form action={formAction} className="space-y-3">
@@ -78,12 +84,12 @@ export default function LoginForm() {
           aria-live="polite"
           aria-atomic="true"
         >
-          {errorMessage && (
+          {errorMessage ? (
             <>
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
               <p className="text-sm text-red-500">{errorMessage}</p>
             </>
-          )}
+          ) : null}
         </div>
       </div>
     </form>
